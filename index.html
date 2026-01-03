@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>誰是SingleStrokePro!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>誰是SingleStrokePro!</h1>
+</header>
+
+<div class="main-container">
+    <div class="sidebar-left">
+        <h3>學生管理</h3>
+        <div class="upload-area">
+            <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(this)">
+            <img id="preview" alt="預覽" style="display:none; width:80px; height:80px; margin: 10px auto; border-radius: 50%; object-fit: cover; border: 2px solid #3498db;">
+            <input type="text" id="studentName" placeholder="學生姓名">
+            <button onclick="saveStudent()">新增學生</button>
+
+            <div class="meme-container">
+                <img src="https://lh3.googleusercontent.com/d/1Cnc1SQsxLg2PijgCZLtzUGluuVo8Bb8x" alt="Pedro Raccoon">
+            </div>
+        </div>
+        <div id="studentList"></div>
+    </div>
+
+    <div class="sidebar-right">
+        <h3>排行榜 (TOP 10)</h3>
+        <div id="rankingBoard"></div>
+    </div>
+</div>
+
+<div class="footer-action">
+    <button onclick="openChallenge()">開啟挑戰模式</button>
+</div>
+
+<div id="challengeModal" class="modal">
+    <h2 id="countdownText">READY</h2>
+    <div id="timer">00:00.00</div>
+    <div class="controls">
+        <select id="noteValue">
+            <option value="1">四分音符 (x1)</option>
+            <option value="2">八分音符 (x2)</option>
+            <option value="4" selected>十六分音符 (x4)</option>
+        </select>
+        <input type="number" id="bpmDisplay" value="120"> BPM
+        <input type="range" id="bpmRange" min="40" max="250" value="120" oninput="document.getElementById('bpmDisplay').value = this.value">
+        <div class="button-group">
+            <button id="startBtn" onclick="startChallenge()">START</button>
+            <button id="stopBtn" class="stop" onclick="stopChallenge()" disabled>STOP</button>
+            <button id="resetBtn" class="reset" onclick="resetChallenge()">RESET</button>
+        </div>
+        <button onclick="closeChallenge()" style="background:#555; margin-top:10px;">離開</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

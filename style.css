@@ -1,0 +1,463 @@
+/* =========================================
+   城九爵士鼓 - 電競風格挑戰系統 (完整質感強化版)
+   ========================================= */
+
+:root {
+    --primary: #2c3e50;
+    --rank-bg: #c10000;    /* 深紅 */
+    --photo-bg: #ff2e2e;   /* 亮紅(照片區) */
+    --name-bg: #ff2e2e;    /* 亮紅(姓名區) */
+    --data-bg: #2b58a7;    /* 藍色 */
+    --score-bg: #1e3d75;   /* 深藍 */
+    --white-border: #ffffff;
+    --text-gold: #ffd700;
+    --gold: #ffd700;       /* 前三名邊框色 */
+    --silver: #c0c0c0;
+    --bronze: #cd7f32;
+    --accent: #3498db;
+    --danger: #e74c3c;
+    --gray: #7f8c8d;
+}
+
+/* 基礎重置與佈局 */
+body { 
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+    background: #f4f7f6; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100vh; 
+}
+
+header { 
+    background: var(--primary); 
+    color: white; 
+    padding: 1.5rem; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.main-container { display: flex; flex: 1; overflow: hidden; }
+
+.sidebar-left {
+    /* 使用 0.8 透明度的白色遮罩，並套用您提供的 lh3 圖片連結 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5)), 
+                      url('https://lh3.googleusercontent.com/d/1ihJ6JM64kSWMN8RQr8K9d_szhkU_6b1i'); 
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 基礎排版設定 */
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    border-radius: 8px 0 0 8px;
+    
+    /* 確保容器內容（如學生管理文字）在背景之上清晰顯示 */
+    position: relative;
+    z-index: 1;
+}
+
+//* 調整標題顏色以配合文青背景色調 */
+.sidebar-left h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+} /* <--- 補上這個結尾大括號 */
+
+/* =========================================
+   左側側邊欄：學生管理區
+   ========================================= */
+
+.sidebar-left {
+    /* 使用 0.8 透明度的白色遮罩，並套用背景圖 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5)), 
+                      url('https://lh3.googleusercontent.com/d/1ihJ6JM64kSWMN8RQr8K9d_szhkU_6b1i'); 
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    border-radius: 8px 0 0 8px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 調整標題顏色 */
+.sidebar-left h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* 學生清單容器：修正壓縮與捲動問題 */
+#studentList {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 分成兩列 */
+    grid-auto-rows: 50px;           /* 固定每一行高度為 50px */
+    gap: 10px;                     
+    margin-top: 15px;
+    
+    max-height: 400px;             /* 顯示區域高度 */
+    overflow-y: auto;              /* 超過則啟動捲動 */
+    overflow-x: hidden;            
+    padding: 5px;                  
+}
+
+/* 美化捲動條 */
+#studentList::-webkit-scrollbar {
+    width: 5px;
+}
+#studentList::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* 學生項目：強制維持高度不被壓縮 */
+.student-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.7); 
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    height: 100%;                  /* 配合 grid-auto-rows */
+    box-sizing: border-box; 
+}
+
+.student-item:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-color: var(--accent);
+}
+
+.student-item img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.student-item span {
+    margin-left: 8px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+
+.upload-area { 
+    border: 2px dashed var(--accent); 
+    padding: 20px; 
+    text-align: center; 
+    border-radius: 12px; 
+    background: #fcfdfe;
+}
+
+.upload-area input[type="file"] { margin-bottom: 15px; width: 100%; }
+.upload-area input[type="text"] { 
+    width: 90%; 
+    padding: 10px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ddd; 
+    border-radius: 6px;
+}
+
+.upload-area button { 
+    width: 100%; 
+    padding: 12px; 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer;
+}
+
+/* 右側排行榜區 */
+.sidebar-right { 
+    flex: 1; 
+    padding: 25px; 
+    overflow-y: auto; 
+    background: #e0e0e0; 
+    scroll-behavior: smooth;
+}
+
+/* =========================================
+   電競斜切橫條項目核心
+   ========================================= */
+.ranking-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 75px; 
+    position: relative;
+    border: 3px solid var(--white-border);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: 800;
+}
+
+.ranking-item:hover { transform: translateX(8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+/* 右下角淡出特效 */
+.ranking-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(30, 61, 117, 0.1));
+    pointer-events: none;
+    z-index: 6;
+}
+
+.rank-section {
+    background: var(--rank-bg);
+    color: white;
+    width: 70px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-style: italic;
+    clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
+    z-index: 5;
+    flex-shrink: 0;
+}
+
+/* 1. 確保外層容器是定位基準 */
+.ranking-item {
+    position: relative; /* 必備：讓內部的絕對定位有依據 */
+    display: flex;
+    align-items: center;
+    height: 75px;
+    overflow: hidden;
+}
+
+/* 1. 調整照片容器：降低透明度並確保背景色能襯托文字 */
+.photo-container {
+    position: absolute;
+    left: 200px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    z-index: 2;
+    
+    /* 調整透明度為 0.5 */
+    opacity: 0.5; 
+    
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+    -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+    mask-image: linear-gradient(to right, black 70%, transparent 100%);
+    
+    /* 建議加上深色底，這樣照片變透明時會變暗，文字更清晰 */
+    background: #000; 
+}
+
+/* 4. 針對照片本身的顯示微調 */
+.rank-avatar {
+    width: 100%;
+    height: 100%;
+    
+    /* 確保圖片填滿容器且不變形 */
+    object-fit: cover;
+    
+    /* 關鍵調整：將照片重心上提，解決「只露出一顆頭」的問題 */
+    /* 50% 是水平置中，25% 是將垂直焦點設在靠近頂部 1/4 處 */
+    object-position: 50% 25%;
+    
+    display: block;
+    transition: object-position 0.3s ease;
+}
+
+
+/* 2. 強化姓名顯示邏輯 */
+.name-section {
+    position: relative;
+    z-index: 10; /* 提高層級，確保在照片最上方 */
+    background: transparent !important;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 85px; /* 避開左側排名區 */
+}
+
+/* 3. 姓名文字細節調整：加深、加粗、加白底陰影 */
+.name-text { 
+    font-size: 1.4rem; /* 略微放大 */
+    font-weight: 900;  /* 加粗 */
+    color: #1a1a1a;    /* 使用接近黑色的深色 */
+    letter-spacing: 2px;
+    
+    /* 核心調整：多重文字陰影 (Text Shadow) 
+       這會在文字周圍形成一圈白色「發光體」，即使背景再亂也能看清 */
+    text-shadow: 
+        2px 2px 0px #fff, 
+       -1px -1px 0px #fff,  
+        1px -1px 0px #fff,
+       -1px  1px 0px #fff,
+        0px  0px 8px rgba(255,255,255,0.8);
+}
+
+.date-text { 
+    font-size: 0.8rem; 
+    color: #333;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px white; /* 日期也加上微量陰影 */
+}
+
+.data-section {
+    background: var(--data-bg);
+    color: white;
+    flex: 3.5;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 25px 0 15px;
+    margin-left: -18px;
+    clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%);
+    z-index: 2;
+}
+
+.data-group { text-align: center; }
+.data-label { display: block; font-size: 0.7rem; opacity: 0.8; margin-bottom: 2px; }
+.data-value { font-size: 1rem; color: #fff; }
+
+.score-section {
+    background: var(--score-bg);
+    color: var(--text-gold);
+    width: 160px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    margin-left: -15px;
+    z-index: 1;
+}
+
+/* 前三名獎勵框 */
+.rank-1 { border-color: var(--gold); }
+.rank-2 { border-color: var(--silver); }
+.rank-3 { border-color: var(--bronze); }
+
+/* 挑戰彈窗 (Modal) 完全美化版 */
+.modal { 
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.95); color: white; z-index: 100; 
+    flex-direction: column; align-items: center; justify-content: center; 
+}
+
+#timer { font-size: 120px; font-family: 'Courier New', monospace; margin: 20px 0; color: var(--text-gold); text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+
+.controls { background: #222; padding: 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 600px; border: 1px solid #444; }
+
+.controls select, .controls input[type="number"] {
+    background: #333; color: white; border: 1px solid #555; padding: 10px; border-radius: 5px; font-size: 1.1rem;
+}
+
+.button-group { margin-top: 30px; }
+.button-group button { 
+    padding: 15px 40px; font-size: 1.2rem; margin: 0 10px; border-radius: 10px; 
+    border: none; cursor: pointer; font-weight: bold; 
+}
+
+#startBtn { background: #27ae60; color: white; }
+#stopBtn { background: var(--danger); color: white; }
+#resetBtn { background: var(--gray); color: white; }
+.exit { background: transparent; border: 1px solid #666 !important; margin-top: 20px; }
+
+/* 刪除按鈕 */
+.delete-btn {
+    position: absolute; right: 10px; top: 10px; 
+    background: rgba(255,255,255,0.2); border: none; color: white;
+    border-radius: 50%; width: 25px; height: 25px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; z-index: 20;
+}
+.delete-btn:hover { background: var(--danger); }
+
+/* 固定操作區按鈕 */
+.footer-action { padding: 20px; text-align: center; border-top: 1px solid #ddd; background: white; }
+.footer-action button { 
+    font-size: 1.5rem; padding: 15px 80px; border-radius: 50px; 
+    background: linear-gradient(135deg, #3498db, #2980b9); color: white;
+    border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(52,152,219,0.4);
+}
+
+.meme-container {
+    display: flex;
+    justify-content: center; /* 居中 */
+    margin-top: 20px;       /* 與上方新增學生區保持距離 */
+    width: 100%;
+}
+
+.meme-container img {
+    width: 150px;           /* 設定適中大小 */
+    height: 150px;
+    border-radius: 50%;      /* 強制變成圓形 */
+    border: 5px solid #333;  /* 加個黑框增加質感 */
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* 增加立體感 */
+}
+
+/* 調整學生項目佈局以容納刪除按鈕 */
+.student-item {
+    display: flex;
+    justify-content: space-between; /* 讓名字與按鈕分開 */
+    align-items: center;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.7); 
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* 學生項目內的刪除按鈕 */
+.student-delete-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 14px;
+    padding: 5px 8px;
+    cursor: pointer;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.student-delete-btn:hover {
+    color: #e74c3c; /* 滑過時變紅色 */
+}
+
