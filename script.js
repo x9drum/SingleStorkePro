@@ -79,6 +79,28 @@ function renderStudents() {
     `).join('');
 }
 
+// 選取學生函數
+function selectStudent(name) {
+    currentStudent = name;
+    
+    // 視覺回饋：更新所有學生項目的樣式
+    const allItems = document.querySelectorAll('.student-item');
+    allItems.forEach(item => {
+        // 先移除所有人的選取狀態
+        item.style.border = "1px solid #444";
+        item.style.backgroundColor = "#333";
+        
+        // 如果名字相符，加上城九紅框
+        if (item.querySelector('span').innerText === name) {
+            item.style.border = "2px solid #e74c3c";
+            item.style.backgroundColor = "rgba(231, 76, 60, 0.1)";
+        }
+    });
+
+    console.log("當前挑戰者已切換為:", name);
+    // 可選：如果你希望選中後有提示，但通常建議用 UI 變化代替 alert，以免中斷操作流
+}
+
 // 刪除學生功能
 function deleteStudent(id) {
     const student = students.find(s => s.id === id);
@@ -296,4 +318,5 @@ function closeChallenge() {
 
 // 初始化執行
 renderStudents();
+
 renderRanking();
