@@ -156,25 +156,41 @@ function startTimer(bpm, subInterval, noteValue) {
 }
 
 
-// 4. 分數與排行榜 (移除加權)
+// 4. 分數與排行榜 (城九含金量修正版)
 function stopChallenge() {
-    clearInterval(timerInterval); clearInterval(metroInterval); clearInterval(prepInterval);
+    clearInterval(timerInterval); 
+    clearInterval(metroInterval); 
+    clearInterval(prepInterval);
+    
     if (!startTime) return resetChallenge();
+
     const durationMs = Date.now() - startTime;
+    const durationSec = durationMs / 1000;
     const bpm = parseInt(document.getElementById('bpmDisplay').value);
     const noteSelect = document.getElementById('noteValue');
-    const noteValue = parseInt(noteSelect.value);
-    
-    // 移除加權邏輯：純粹的速度與時間
-    const score = Math.floor(bpm * (durationMs / 1000) * 10);
+    // 注意：此處 noteValue 變數雖然取得，但依照您的要求，公式不再乘上它，僅依據 BPM 判定含金量
+
+    /* 城九含金量計分公式 (指數加權 1.07)
+       目標：200 BPM 1分鐘 (約 1041萬) > 180 BPM 3分鐘 (約 730萬)
+    */
+    const speedBonus = Math.pow(1.07, (bpm - 100)); 
+    const score = Math.floor(bpm * durationSec * speedBonus);
 
     const existingIndex = records.findIndex(r => r.name === currentStudent);
+    
     if (existingIndex === -1 || score > records[existingIndex].score) {
-        if(confirm(`破紀錄！得分：${score.toLocaleString()}\n是否存入排行榜？`)) {
-            saveAndRefresh(score, bpm, durationMs, document.getElementById('timer').innerText, noteSelect.options[noteSelect.selectedIndex].text, existingIndex);
+        if(confirm(`破紀錄！含金量得分：${score.toLocaleString()}\n是否存入排行榜？`)) {
+            saveAndRefresh(
+                score, 
+                bpm, 
+                durationMs, 
+                document.getElementById('timer').innerText, 
+                noteSelect.options[noteSelect.selectedIndex].text, 
+                existingIndex
+            );
         }
     } else {
-        alert(`挑戰結束！得分：${score.toLocaleString()}`);
+        alert(`挑戰結束！得分：${score.toLocaleString()}\n(未超越個人紀錄)`);
     }
     closeChallenge();
 }
