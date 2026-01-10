@@ -217,9 +217,14 @@ function renderRanking() {
                     <div class="date-text">${new Date(r.timestamp).toLocaleDateString()}</div>
                 </div>
                 <div class="data-section">
-                    <div class="data-group"><span class="data-label">時間</span><span class="data-value">${r.timeStr}</span></div>
-                    <div class="data-group"><span class="data-label">速度</span><span class="data-value">${r.bpm} BPM</span></div>
-                    <div class="data-group"><span class="data-label">音符</span><span class="data-value">${r.noteText.split(' ')[0]}</span></div>
+                    <div class="data-group">
+                        <span class="data-label">時間</span>
+                        <span class="data-value">${r.timeStr}</span>
+                    </div>
+                    <div class="data-group">
+                        <span class="data-label">速度</span>
+                        <span class="data-value">${r.bpm} BPM</span>
+                    </div>
                 </div>
                 <div class="score-section">${r.score.toLocaleString()}</div>
                 <button class="delete-btn" onclick="deleteRecord(${r.timestamp})">✕</button>
@@ -249,3 +254,4 @@ function closeChallenge() { resetChallenge(); document.getElementById('challenge
 
 renderStudents();
 renderRanking();
+
