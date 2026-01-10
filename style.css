@@ -263,7 +263,7 @@ header {
 /* 1. 調整照片容器：降低透明度並確保背景色能襯托文字 */
 .photo-container {
     position: absolute;
-    left: 200px;
+    left: 100px;
     top: 0;
     width: 250px;
     height: 100%;
@@ -460,4 +460,5 @@ header {
 .student-delete-btn:hover {
     color: #e74c3c; /* 滑過時變紅色 */
 }
+
 
